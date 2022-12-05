@@ -16,7 +16,7 @@ class Stack:
         return removed_crates
 
 
-def move_crates(rule: str, crate_system: list[Stack]) -> None:
+def move_crates(task: str, rule: str, crate_system: list[Stack]) -> None:
     rule = rule.rstrip().split(' ')
     move_n = int(rule[1])
     move_from = int(rule[3])-1
@@ -24,27 +24,31 @@ def move_crates(rule: str, crate_system: list[Stack]) -> None:
 
     removed_crates = crate_system[move_from].remove_crates(move_n)
     # part1
-    # crate_system[move_to].add_crates(removed_crates)
+    if task == "Task1":
+        crate_system[move_to].add_crates(removed_crates)
     # part2
-    crate_system[move_to].add_crates(removed_crates[::-1])
+    if task == "Task2":
+        crate_system[move_to].add_crates(removed_crates[::-1])
 
 
 def main():
-    with open(INPUT, "r") as f:
-        data = f.readlines()
-        rules = data[10:]
-        crate_system = [Stack(int(data[8][j:j+3].strip())) for j in range(0, len(data[8]), 4)]
-        for i in range(8):
-            crate_line = [data[7-i][j:j+3].strip(' []') for j in range(0, len(data[8]), 4)]
-            [crate_system[k].add_crates([crate_line[k]]) for k in range(len(crate_system)) if crate_line[k] != '']
+    for task in ["Task1", "Task2"]:
+        with open(INPUT, "r") as f:
+            data = f.readlines()
+            rules = data[10:]
+            crate_system = [Stack(int(data[8][j:j+3].strip())) for j in range(0, len(data[8]), 4)]
+            for i in range(8):
+                crate_line = [data[7-i][j:j+3].strip(' []') for j in range(0, len(data[8]), 4)]
+                [crate_system[k].add_crates([crate_line[k]]) for k in range(len(crate_system)) if crate_line[k] != '']
 
-        for rule in rules:
-            move_crates(rule, crate_system)
+            for rule in rules:
+                move_crates(task, rule, crate_system)
 
-        result = ''
-        for stack in crate_system:
-            result += str(stack.crates[-1])
-        print(result)
+            result = ''
+            for stack in crate_system:
+                result += str(stack.crates[-1])
+            print(task + ":")
+            print(result)
     
             
 if __name__ =="__main__":

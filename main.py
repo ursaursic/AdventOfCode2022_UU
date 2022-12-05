@@ -7,13 +7,14 @@ from day1 import main as day_1
 from day2 import main as day_2
 from day3 import main as day_3
 from day4 import main as day_4
+from day5 import main as day_5
 
 if __name__ == "__main__":
     if (len(sys.argv) > 2):
         print('Yaou cunt, just one please!')
         sys.exit(-1)
 
-    mains = [day_1, day_2, day_3, day_4]
+    mains = [day_1, day_2, day_3, day_4, day_5]
     day_denumerator = int(sys.argv[1])-1
 
     if day_denumerator > len(mains) or day_denumerator < 0:
